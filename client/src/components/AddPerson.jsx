@@ -14,15 +14,16 @@ import { store } from "../store";
 import { toast } from "react-toastify";
 
 const AddPerson = ({}) => {
-  const { inputValues, currentUpdatePerson } = useSelector((state) => state.globalValues);
+  const { inputValues, currentUpdatePerson } = useSelector(
+    (state) => state.globalValues
+  );
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:3000/api/v1/people";
-    if(currentUpdatePerson === 0){
+    const url = "https://crud-application-fa1p.onrender.com/api/v1/people";
+    if (currentUpdatePerson === 0) {
       try {
-        
         const response = await axios.post(url, inputValues);
         store.dispatch(changeStatusListener());
         store.dispatch(resetInputValues());
@@ -30,20 +31,22 @@ const AddPerson = ({}) => {
       } catch (error) {
         toast.error(error.message);
       }
-    }else{
+    } else {
       try {
-        const response = await axios.patch(`http://localhost:3000/api/v1/people/${currentUpdatePerson}`, inputValues);
-        store.dispatch(changeCurrentUpdatePerson({id: 0}));
+        const response = await axios.patch(
+          `https://crud-application-fa1p.onrender.com/api/v1/people/${currentUpdatePerson}`,
+          inputValues
+        );
+        store.dispatch(changeCurrentUpdatePerson({ id: 0 }));
         store.dispatch(resetInputValues());
-        toast.success("Person successfully updated! Please refresh to see the changes.");
+        toast.success(
+          "Person successfully updated! Please refresh to see the changes."
+        );
       } catch (error) {
         toast.error(error.message);
       }
-
     }
-    
   };
-
 
   return (
     <div className="add-person-main">
@@ -55,7 +58,9 @@ const AddPerson = ({}) => {
           name="name"
           placeholder="Enter person's name"
           value={inputValues.name}
-          onChange={(e) => dispatch(updateNameInputValue({ name: e.target.value}))}
+          onChange={(e) =>
+            dispatch(updateNameInputValue({ name: e.target.value }))
+          }
         />
         <input
           className="form-input"
@@ -63,7 +68,9 @@ const AddPerson = ({}) => {
           name="email"
           placeholder="Enter person's email"
           value={inputValues.email}
-          onChange={(e) => dispatch(updateEmailInputValue({ email: e.target.value }))}
+          onChange={(e) =>
+            dispatch(updateEmailInputValue({ email: e.target.value }))
+          }
         />
         <input
           className="form-input"
@@ -71,7 +78,9 @@ const AddPerson = ({}) => {
           name="password"
           placeholder="Enter person's password"
           value={inputValues.password}
-          onChange={(e) => dispatch(updatePasswordInputValue({ password: e.target.value }))}
+          onChange={(e) =>
+            dispatch(updatePasswordInputValue({ password: e.target.value }))
+          }
         />
         {currentUpdatePerson === 0 ? (
           <input className="form-submit" type="submit" value="Add Person" />
